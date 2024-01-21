@@ -1,28 +1,31 @@
-import { addTodo } from "@/lib/action";
-import { fetchTodo } from "@/lib/data";
+import { deleteTodo } from "@/lib/action";
+import { fetchTodos } from "@/lib/data";
 import Image from "next/image";
+import Link from "next/link";
 
 export default async function Home() {
-  const todos = await fetchTodo()
-  console.log(todos, '=======todos')
+  const todos = await fetchTodos();
   return (
     <main className="">
-      <p>Hello</p>
-      {
-        todos.map(todo=>(
-          <div key={todo.title}>
-            {todo.title} - {todo.description}
+      <div className="w-fit mx-auto">
+        <Link href={"/addTodo"} className="block text-center mb-4 border">
+          Add new todo
+        </Link>
+
+        {todos.map((todo) => (
+          <div key={todo.title} className="p-2 border mb-1">
+            <h1>{todo.title} </h1>
+            <span className="text-sm">{todo.description}</span>
+            <div className="flex gap-4">
+              <Link href={`/editTodo/${todo.id}`}>View</Link>
+              <form action={deleteTodo}>
+                <input type="hidden" value={todo.id} name="id"/>
+                <button type="submit">Delete</button>
+              </form>
+            </div>
           </div>
-        ))
-      }
-      <form action={addTodo}>
-        <input placeholder="Enter title" type="text" name="title"/>
-        <input placeholder="Enter description" type="text" name="description"/>
-        <button type="submit">Add</button>
-      </form>
+        ))}
+      </div>
     </main>
   );
 }
-
-// wkvgCjcc5RbkznVk
-// next-app
