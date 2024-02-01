@@ -1,3 +1,4 @@
+import AddTodoForm from "@/components/AddTodoForm/AddTodoForm";
 import { deleteTodo } from "@/lib/action";
 import { fetchTodos } from "@/lib/data";
 import Image from "next/image";
@@ -8,9 +9,13 @@ export default async function Home() {
   return (
     <main className="">
       <div className="w-fit mx-auto">
-        <Link href={"/addTodo"} className="block text-center mb-4 border">
+        {/* <Link href={"/addTodo"} className="block text-center mb-4 border">
           Add new todo
-        </Link>
+        </Link> */}
+
+        <div className="my-2">
+          <AddTodoForm />
+        </div>
 
         {todos.map((todo) => (
           <div key={todo.title} className="p-2 border mb-1">
@@ -19,7 +24,7 @@ export default async function Home() {
             <div className="flex gap-4">
               <Link href={`/editTodo/${todo.id}`}>View</Link>
               <form action={deleteTodo}>
-                <input type="hidden" value={todo.id} name="id"/>
+                <input type="hidden" value={todo.id} name="id" />
                 <button type="submit">Delete</button>
               </form>
             </div>

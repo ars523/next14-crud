@@ -6,9 +6,12 @@ import { connectToDB } from "./utils";
 import { redirect } from "next/navigation";
 
 //Add todo
-export const addTodo = async (formData) => {
-  const { title, description } = Object.fromEntries(formData);
-
+export const addTodo = async (prev, formData) => {
+  console.log(prev, '=======previous state')
+  console.log(formData, '=====form data')
+  // const { title, description } = Object.fromEntries(formData);
+  const title = formData.get('title')
+  const description = formData.get('description')
   try {
     connectToDB();
     const newTodo = new Todo({
@@ -19,7 +22,9 @@ export const addTodo = async (formData) => {
     await newTodo.save();
   } catch (error) {
     console.log(error);
-    throw new Error("Failed to create new todo");
+    return {
+      message: 'Failed to create todo'
+    }
   }
   revalidatePath("/");
   redirect("/");
